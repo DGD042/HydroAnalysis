@@ -45,23 +45,26 @@ import warnings
 # Personal Modules
 # ------------------
 # Importing Modules
-# from Utilities import Utilities as utl
-# from Utilities import Data_Man as DM
+try:
+    from HydroAnalysis.src.Utilities import Utilities as utl
+    from HydroAnalysis.src.Utilities import Data_Man as DM
+    from HydroAnalysis.src.Dates.DatesC import DatesC
+    from HydroAnalysis.src.Dates import DatesFunctions as DUtil
+    from HydroAnalysis.HydroPlotter import HydroPlotter as HyPl; HyPl=HyPl()
+    from HydroAnalysis.src.Gen_Functions import *
+    from HydroAnalysis.src.Meteo import Cycles as MCy
+    from HydroAnalysis.src.Climate import Cycles as CCy
+except ImportError:
+    from src.Utilities import Utilities as utl
+    from src.Utilities import Data_Man as DM
+    from src.Dates.DatesC import DatesC
+    from src.Dates import DatesFunctions as DUtil
+    from HydroPlotter import HydroPlotter as HyPl; HyPl=HyPl()
+    from src.Gen_Functions import *
+    from src.Meteo import Cycles as MCy
+    from src.Climate import Cycles as CCy
 
-# try:
-#     from Hydro_Analysis.Hydro_Plotter import Hydro_Plotter as HyPl; HyPl=HyPl()
-#     from Hydro_Analysis.Gen_Functions.Functions import *
-#     from Hydro_Analysis.Meteo import Cycles as MCy
-#     from Hydro_Analysis.Climate import Cycles as CCy
-#     from Hydro_Analysis.Dates.DatesC import DatesC
-# except ImportError:
-#     from Hydro_Plotter import Hydro_Plotter as HyPl; HyPl=HyPl()
-#     from Gen_Functions.Functions import *
-#     from Meteo import Cycles as MCy
-#     from Climate import Cycles as CCy
-#     from Dates.DatesC import DatesC
-# 
-class Hydro_Analysis(object):
+class HydroAnalysis(object):
     '''
     ____________________________________________________________________________
     
@@ -189,7 +192,7 @@ class Hydro_Analysis(object):
         # ----------------
         if Var is None and self.VarH is None:
             raise utl.ShowError('CiclD','Hydro_Analysis','No Data added')
-        if Years == None and self.DateH is None:
+        if Years is None and self.DateH is None:
             raise utl.ShowError('CiclD','Hydro_Analysis','No Dates added')
         if Years is None and Dates is None:
             Dates = self.DateH
@@ -226,7 +229,6 @@ class Hydro_Analysis(object):
 
 
         if FlagG:
-            # Se realizan los labels para las horas
             if DTH == 24:
                 HH = np.arange(0,24)
                 HH2 = np.arange(0,24)
@@ -235,10 +237,13 @@ class Hydro_Analysis(object):
                 HH = np.arange(0,48)
                 HH2 = np.arange(0,48,2)
                 HHL = np.arange(0,24)
-            HyPl.DalyCycle(HH,CiDT,ErrT,VarL,VarLL,Name,NameA,PathImg,color=C,label=VarLL,lw=1.5)
-            # Figura normal
-            Mes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',\
-                'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+            HyPl.DalyCycle(HH,CiDT,ErrT,VarL,VarLL,Name=Name,NameA=NameA,PathImg=PathImg,
+                    color=C,label=VarLL,lw=1.5)
+            
+            # Mes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',\
+            #     'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+            Mes = ['January','February','March','April','May','June',\
+                'July','August','September','October','November','December'];
             # Tamaño de la Figura
             fH=30 # Largo de la Figura
             fV = fH*(2/3) # Ancho de la Figura
@@ -269,13 +274,19 @@ class Hydro_Analysis(object):
                 axs[ii].set_title(Mes[ii],fontsize=15)
                 axs[ii].set_xlim([0,23])
                 axs[ii].set_ylim([np.nanmin(MinV),np.nanmax(MaxV)])
-                axs[ii].xaxis.set_ticks(HH2)
-                axs[ii].set_xticklabels(HHL,rotation=90)
+                # The minor ticks are included
+                ax = axs[ii]
+                xTL = ax.xaxis.get_ticklocs() # List of Ticks in x
+                MxL = (xTL[1]-xTL[0])/5 # minorLocatorx value
+                minorLocatorx = MultipleLocator(MxL)
+                yTL = ax.yaxis.get_ticklocs() # List of Ticks in y
+                MyL = (yTL[1]-yTL[0])/5 # minorLocatory value
+                minorLocatory = MultipleLocator(MyL)
+                axs[ii].xaxis.set_minor_locator(minorLocatorx)
+                axs[ii].yaxis.set_minor_locator(minorLocatory)
 
                 if ii == 0 or ii == 3 or ii == 6 or ii == 9:
                     axs[ii].set_ylabel(VarL,fontsize=13)
-                if ii >=9:
-                    axs[ii].set_xlabel('Horas',fontsize=13)
                 if ii == 2:
                     axs[ii].legend(loc='best')
 

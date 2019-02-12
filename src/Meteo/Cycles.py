@@ -35,9 +35,18 @@ import warnings
 # Personal Modules
 # ------------------
 # Importing Modules
-from Utilities import Utilities as utl
-from Hydro_Analysis.Dates import DatesFunctions as DUtil 
-from Hydro_Analysis.Gen_Functions.Functions import *
+try:
+    from HydroAnalysis.src.Utilities import Utilities as utl
+    from HydroAnalysis.src.Utilities import Data_Man as DM
+    from HydroAnalysis.src.Dates.DatesC import DatesC
+    from HydroAnalysis.src.Dates import DatesFunctions as DUtil
+    from HydroAnalysis.src.Gen_Functions.Functions import *
+except ImportError:
+    from src.Utilities import Utilities as utl
+    from src.Utilities import Data_Man as DM
+    from src.Dates.DatesC import DatesC
+    from src.Dates import DatesFunctions as DUtil
+    from src.Gen_Functions.Functions import *
 
 
 
@@ -77,10 +86,10 @@ def CiclD(Var,Years=None,Dates=None,DTH=24,flagZeros=False):
     '''
 
     # Errors
-    if Years == None and Dates == None:
+    if Years is None and Dates is None:
         Er = utl.ShowError('CicloD','An_Hydro','No dates nor years were added')
         return
-    elif Dates == None:
+    elif Dates is None:
         FlagYears = True
     else:
         FlagYears = False

@@ -33,7 +33,7 @@ import platform
 
     
 # System
-def ShowError(fn,cl,msg):
+def ShowError(fn,cl,msg,exp=Exception):
     '''
     DESCRIPTION:
 
@@ -43,12 +43,13 @@ def ShowError(fn,cl,msg):
         :param fn:  A str, Function that produced the error.
         :param cl:  A str, Class that produced the error.
         :param msg: A str, Message of the error.
+        :param exp: Type of exception.
     _______________________________________________________________________
     OUTPUT:
-       :return: An int, Error managment -1. 
+        Return an Exception with the error.
     '''
 
-    raise Exception('ERROR: Function <'+fn+'> Class <'+cl+'>: '+msg)
+    raise exp('ERROR: Function <'+fn+'> Class <'+cl+'>: '+msg)
 
 def ExitError(fn,cl,msg):
     '''

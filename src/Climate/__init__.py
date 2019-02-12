@@ -26,8 +26,4 @@ ____________________________________________________________________________
 
 '''
 
-try:
-    from Hydro_Analysis.Climate import Cycles
-except ImportError:
-    from Climate import Cycles
-
+__all__ = ['Cycles']

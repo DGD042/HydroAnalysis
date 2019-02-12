@@ -26,10 +26,4 @@ ____________________________________________________________________________
 
 '''
 
-try:
-    from Hydro_Analysis.Meteo import MeteoFunctions
-    from Hydro_Analysis.Meteo import Cycles
-except ImportError:
-    from Meteo import MeteoFunctions
-    from Meteo import Cycles
-
+__all__ = ['Cycles','MeteoFunctions']

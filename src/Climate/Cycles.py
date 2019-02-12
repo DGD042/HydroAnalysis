@@ -45,18 +45,22 @@ import warnings
 # Personal Modules
 # ------------------
 # Importing Modules
-from Utilities import Utilities as utl
-from Utilities import Data_Man as DM
-from Hydro_Analysis.Hydro_Plotter import Hydro_Plotter as HyPl; HyPl=HyPl()
-from Utilities import DatesUtil as DUtil; DUtil=DUtil()
-from Hydro_Analysis.Gen_Functions.Functions import *
-from Hydro_Analysis.Meteo import Cycles as MCy
+try:
+    from HydroAnalysis.src.Utilities import Utilities as utl
+    from HydroAnalysis.src.Utilities import Data_Man as DM
+    from HydroAnalysis.src.Dates.DatesC import DatesC
+    from HydroAnalysis.src.Dates import DatesFunctions as DUtil
+except ImportError:
+    from src.Utilities import Utilities as utl
+    from src.Utilities import Data_Man as DM
+    from Dates.DatesC import DatesC
+    from Dates import DatesFunctions as DUtil
 
 def CiclA(VMes,Years,flagA=False,oper='mean'):
     '''
     DESCRIPTION:
         This function calculates the annual cycle of a variable, also
-        calculates the annual series of requiered.
+        calculates the annual series of required.
 
         Additionally, this function can makes graphs of the annual cycle 
         and the annual series if asked.
@@ -67,7 +71,7 @@ def CiclA(VMes,Years,flagA=False,oper='mean'):
         :param Years: A list or ndarray, Vector with the initial and 
                                          final year.
         :param flagA: A boolean, flag to know if the annual series 
-                                 is requiered.
+                                 is required.
         :param oper:  A ndarray, Operation for the annual data.
     _______________________________________________________________________
     

@@ -28,8 +28,8 @@ ____________________________________________________________________________
 
 try:
     from HydroAnalysis.src import *
-    from HydroAnalysis.HydroAnalysis import HydroAnalysis 
-    from HydroAnalysis.HydroPlotter import HydroPlotter
+    from HydroAnalysis.HydroAnalysis.HydroAnalysis import HydroAnalysis 
+    from HydroAnalysis.HydroPlotter.HydroPlotter import HydroPlotter
 except ImportError:
     from HydroAnalysis.src import *
     from HydroAnalysis import HydroAnalysis

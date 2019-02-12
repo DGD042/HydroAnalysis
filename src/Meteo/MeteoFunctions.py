@@ -38,12 +38,18 @@ import warnings
 # Personal Modules
 # ------------------
 # Importing Modules
-from Utilities import Utilities as utl
-from Utilities import Data_Man as DM
-from Hydro_Analysis.Hydro_Plotter import Hydro_Plotter as HyPl; HyPl=HyPl()
-from Utilities import DatesUtil as DUtil; DUtil=DUtil()
-from Hydro_Analysis.Gen_Functions.Functions import *
-from Hydro_Analysis.Meteo import Cycles as MCy
+try:
+    from HydroAnalysis.src.Utilities import Utilities as utl
+    from HydroAnalysis.src.Utilities import Data_Man as DM
+    from HydroAnalysis.src.Dates.DatesC import DatesC
+    from HydroAnalysis.src.Dates import DatesFunctions as DUtil
+    from HydroAnalysis.src.Gen_Functions import *
+except ImportError:
+    from src.Utilities import Utilities as utl
+    from src.Utilities import Data_Man as DM
+    from src.Dates.DatesC import DatesC
+    from src.Dates import DatesFunctions as DUtil
+    from src.Gen_Functions import *
 
 def PrecDryDays(Date,Prec,Ind=0.1):
     '''

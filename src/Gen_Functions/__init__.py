@@ -26,8 +26,4 @@ ____________________________________________________________________________
 
 '''
 
-try:
-    from Hydro_Analysis.Gen_Functions import Functions
-except ImportError:
-    from Gen_Functions import Functions
-
+__all__ = ['Functions']

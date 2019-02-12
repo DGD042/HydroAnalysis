@@ -41,11 +41,24 @@ except ImportError:
     from Dates.DatesC import DatesC
     from Dates import DatesFunctions as DUtil
 
-class HydroPlotter():
-    def __init__(self,fH=20,fV=None,dpi=300,fontsize=15):
+class HydroPlotter(object):
+    def __init__(self,fH=20,fV=None,dpi=300,fontsize=15,loc=0):
         '''
         DESCRIPTION:
-            Class constructor.
+            This Class have different methods to create new documents 
+
+        _________________________________________________________________________
+
+        INPUT:
+            :param fH: A number, Horizontal size of the figure in cm.
+            :param fV: A number, Vertical size of the figure in cm.  If it is 
+                       None, the default vertical size would be 2/3 of fH.
+            :param dpi: A int, Resolution of the image, default to 300.
+            :param fontsize: A int, font size of the labels, Titles have +1
+                             in the labels.
+            :param loc: A int, Location of the legend, if the plot need it.
+        _________________________________________________________________________
+        
 
         '''
         self.font = 'Times New Roman'
@@ -57,14 +70,20 @@ class HydroPlotter():
                        'humedad específica':'HS','specific humidity':'HS'}
         
         # Image dimensions
-        self.fH = 20
-        self.fV = self.fH*(2.0/3.0)
+        self.fH = fH
+        if fV is None:
+            self.fV = self.fH*(2.0/3.0)
+        else:
+            self.fV = fV
 
         # Image resolution
-        self.dpi = 300
+        self.dpi = dpi
 
         # Image font size
-        self.fontsize=15
+        self.fontsize = fontsize
+        # Legend location
+        self.loc = loc
+        return
 
     def monthlab(self,Date,FlagEng=True):
         '''             
@@ -119,6 +138,12 @@ class HydroPlotter():
             The plot would be saved in the directory.
         '''
         # Error Management
+        if len(Values.shape) == 2:
+            if Labels is None:
+                utl.ShowError('TimeSeriesPlot','HydroPlotter',
+                        'There must be labels for the legend',
+                        ValueError)
+
         # Folder Creation
         utl.CrFolder(PathImg)
 
@@ -127,9 +152,9 @@ class HydroPlotter():
         # Figure Parameters
         plt.rcParams.update({'font.size': self.fontsize,'font.family': 'sans-serif'\
             ,'font.sans-serif': self.font\
-            ,'xtick.labelsize': self.fontsize,'xtick.major.size': 6,'xtick.minor.size': 4\
+            ,'xtick.labelsize': self.fontsize-1,'xtick.major.size': 6,'xtick.minor.size': 4\
             ,'xtick.major.width': 1,'xtick.minor.width': 1\
-            ,'ytick.labelsize': self.fontsize+1,'ytick.major.size': 12,'ytick.minor.size': 4\
+            ,'ytick.labelsize': self.fontsize,'ytick.major.size': 12,'ytick.minor.size': 4\
             ,'ytick.major.width': 1,'ytick.minor.width': 1\
             ,'axes.linewidth':1\
             ,'grid.alpha':0.1,'grid.linestyle':'-'})
@@ -155,7 +180,7 @@ class HydroPlotter():
             plt.plot(Dates,Values,**args)
 
         if not(Labels is None):
-            plt.legend(loc=0)
+            plt.legend(loc=self.loc,fontsize=self.fontsize-1)
         # Fixing axis
         plt.xlim([min(Dates),max(Dates)])
         axes = plt.gca()
@@ -173,8 +198,8 @@ class HydroPlotter():
             tick.set_rotation(45)
         # Labels
         if not(Title is None):
-            plt.title(Title,fontsize=self.fontsize)
-        plt.ylabel(Var_LUn,fontsize=self.fontsize+1)
+            plt.title(Title,fontsize=self.fontsize+1)
+        plt.ylabel(Var_LUn,fontsize=self.fontsize)
         # Figure Spacing fixing
         plt.tight_layout()
         # Figure Saving
@@ -402,15 +427,15 @@ class HydroPlotter():
 
     # Cycles
     def DalyCycle(self,HH,CiDT,ErrT,VarL='',VarLL='',MaxMin=None,Name='',
-            NameA='Figura',PathImg='',vlimits=None,flagIng=True,**args):
+            NameA='Figura',PathImg='',vlimits=None,**args):
         '''
         DESCRIPTION:
         
-            Esta función permite hacer las gráficas del ciclo diurno
+            This method plots a diurnal cycle.
         _________________________________________________________________________
 
         INPUT:
-            :param HH:      Vector de horas.
+            :param HH:      Hourly Vector.
             :param CiDT:    Vector de datos horarios promedio.
             :param ErrT:    Barras de error de los datos.
             :param VarL:    Label de la variable con unidades, por ejemplo 
@@ -436,9 +461,9 @@ class HydroPlotter():
         # Se crea la carpeta para guardar la imágen
         utl.CrFolder(PathImg)
 
-        # Se genera la gráfica
+        # Plot
         F = plt.figure(figsize=DM.cm2inch(fH,fV))
-        # Parámetros de la Figura
+        # Figure parameters
         plt.rcParams.update({'font.size': self.fontsize,'font.family': 'sans-serif'\
             ,'font.sans-serif': self.font\
             ,'xtick.labelsize': self.fontsize,'xtick.major.size': 6,'xtick.minor.size': 4\
@@ -454,7 +479,7 @@ class HydroPlotter():
             labelleft=True)
         plt.tick_params(axis='y',which='major',direction='inout') 
         plt.grid()
-        # Argumentos que se deben incluir color=C,label=VarLL,lw=1.5
+        # color=C,label=VarLL,lw=1.5
         if MaxMin is None:
             plt.errorbar(HH,CiDT,yerr=ErrT,fmt='-',**args)
         else:
@@ -462,15 +487,8 @@ class HydroPlotter():
             plt.plot(HH,MaxMin[0,:],'--',**args)
             plt.plot(HH,MaxMin[1,:],'--',**args)
 
-        if self.fontsize > 19:
-            plt.title(Name,fontsize=self.fontsize)  # Colocamos el título del gráfico
-        else:
-            plt.title('Ciclo Diurno de ' + VarLL + ' en ' + Name,fontsize=self.fontsize)  # Colocamos el título del gráfico
+        plt.title(Name,fontsize=self.fontsize)  # Colocamos el título del gráfico
         plt.ylabel(VarL,fontsize=self.fontsize)  # Colocamos la etiqueta en el eje x
-        if flagIng:
-            plt.xlabel('Hours',fontsize=self.fontsize)  # Colocamos la etiqueta en el eje y
-        else:
-            plt.xlabel('Horas',fontsize=self.fontsize)  # Colocamos la etiqueta en el eje y
         ax = plt.gca()
         plt.xlim([0,23])
         if not(vlimits is None):
