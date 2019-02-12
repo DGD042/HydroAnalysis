@@ -1,4 +1,4 @@
-# What is HydroAnalysis
+# What is HydroAnalysis?
 
 HydroAnalysis is a Python library that carries out some simple hydrological and thermodynamical analysis. It supports making Diurnal and Annual Cycles from hourly and monthly data, calculating and fitting vertical temperature profiles and estimating evaportanspiration with several methods. Furthermore the HydroPlotter library has all kinds of plotting methods to get the information plotted in a nice way in the desired directory.
 
@@ -23,5 +23,5 @@ For example scripts you can visit the [example scripts](https://github.com/DGD04
 
 To calculate the Diurnal Cycle of an hourly series first you have to import that series
 ```python
-
+import HydroAnalysis
 ```
