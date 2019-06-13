@@ -135,7 +135,7 @@ mkl-random==1.0.2
 numpy==1.15.4
 olefile==0.46
 pandas==0.24.1
-parso==0.3.2
+parso==0.4.0
 pexpect==4.6.0
 pickleshare==0.7.5
 Pillow==5.4.1
