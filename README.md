@@ -8,7 +8,7 @@ It is important to note that the modules do not work with Pandas DataFrames, the
 
 **It is still a work in progress and some of the submodules are deactivated for now.**
 
-For the created classes, methods and functions are being replace for a better way of presenting all the documentation, I estimate a month to get everything up and running, having the installation on PyPy as well.
+For the created classes, methods and functions are being replace for a better way of presenting all the documentation, I estimate several months to get everything up and running, having the installation on PyPy as well.
 
 
 # Installation
