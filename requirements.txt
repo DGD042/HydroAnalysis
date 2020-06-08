@@ -72,7 +72,6 @@ pandas==0.24.1
 parso==0.3.2
 pexpect==4.6.0
 pickleshare==0.7.5
-Pillow==5.4.1
 prompt-toolkit==2.0.8
 ptyprocess==0.6.0
 Pygments==2.3.1
@@ -103,7 +102,6 @@ pandas==0.24.1
 parso==0.3.2
 pexpect==4.6.0
 pickleshare==0.7.5
-Pillow==5.4.1
 prompt-toolkit==2.0.8
 ptyprocess==0.6.0
 Pygments==2.3.1
@@ -138,7 +136,6 @@ pandas==0.24.1
 parso==0.4.0
 pexpect==4.6.0
 pickleshare==0.7.5
-Pillow==5.4.1
 prompt-toolkit==2.0.8
 ptyprocess==0.6.0
 Pygments==2.3.1
